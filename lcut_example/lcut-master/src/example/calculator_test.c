@@ -22,6 +22,7 @@ extern int multiply(int a, int b);
 extern int divide(int a, int b);
 
 void tc_add(lcut_tc_t *tc, void *data) {
+    printf("> tc_add\n");
     LCUT_INT_EQUAL(tc, 10, add(2, 8));
     LCUT_INT_EQUAL(tc, -6, add(2, -8));
     LCUT_INT_EQUAL(tc, 0, add(2, -2));
@@ -29,28 +30,37 @@ void tc_add(lcut_tc_t *tc, void *data) {
 
     LCUT_TRUE(tc, 0 == add(2, -2));
     LCUT_ASSERT(tc, "2 + (-2) should equal to 0", 0 == add(2, -2));
+    printf("< tc_add\n");
 }
 
 void tc_subtract(lcut_tc_t *tc, void *data) {
+    printf("> tc_subtract\n");
     LCUT_INT_EQUAL(tc, 6, subtract(8, 2));
     LCUT_INT_EQUAL(tc, 10, subtract(2, -8));
     LCUT_INT_EQUAL(tc, 0, subtract(2, 2));
+    printf("< tc_subtract\n");
 }
 
 void tc_multiply(lcut_tc_t *tc, void *data) {
+    printf("> tc_multiply\n");
     LCUT_INT_EQUAL(tc, 16, multiply(8, 2));
     LCUT_INT_EQUAL(tc, -16, multiply(2, -8));
     LCUT_INT_EQUAL(tc, 0, multiply(0, 2));
+    printf("< tc_multiply\n");
 }
 
 void tc_divide(lcut_tc_t *tc, void *data) {
+    printf("> tc_divide\n");
     LCUT_INT_EQUAL(tc, 4, divide(8, 2));
     LCUT_INT_EQUAL(tc, 0, divide(0, 8));
     LCUT_INT_EQUAL(tc, 1, divide(2, 2));
+    printf("< tc_divide\n");
 }
 
 int main() {
     lcut_ts_t   *suite = NULL;
+
+    printf("> main\n");
     LCUT_TEST_BEGIN("a simple calculator test", NULL, NULL);
 
     LCUT_TS_INIT(suite, "a simple calculator unit test suite", NULL, NULL);
@@ -65,4 +75,5 @@ int main() {
     LCUT_TEST_END();
 
     LCUT_TEST_RESULT();
+    printf("< main\n");
 }

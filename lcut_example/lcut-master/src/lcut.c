@@ -206,6 +206,7 @@ int lcut_ts_init(lcut_ts_t **ts, const char *title, fixture_func setup, fixture_
     int         rv = 0;
     lcut_ts_t	*p = NULL;
 
+    printf("> lcut_ts_init\n");
     p = malloc(sizeof(lcut_ts_t));
     if (p == NULL) {
         rv = errno;
@@ -222,16 +223,19 @@ int lcut_ts_init(lcut_ts_t **ts, const char *title, fixture_func setup, fixture_
 
     (*ts) = p;
 
+    printf("< lcut_ts_init\n");
     return rv;
 }
 
 void lcut_ts_add(lcut_test_t *test, lcut_ts_t *ts) {
     lcut_ts_t	*p = ts;
 
+    printf("> lcut_ts_add\n");
     APR_RING_ELEM_INIT(p, link);
     APR_RING_INSERT_TAIL(&(test->ts_head), p, lcut_ts_t, link);
     test->suites++;
     test->cases += p->ran;
+    printf("< lcut_ts_add\n");
 }
 
 int lcut_tc_add(lcut_ts_t *ts,
@@ -242,6 +246,7 @@ int lcut_tc_add(lcut_ts_t *ts,
                fixture_func after) {
     int	rv	= 0;
     lcut_tc_t	*tc 	= NULL;
+    printf("> lcut_tc_add\n");
 
     tc = malloc(sizeof(lcut_tc_t));
     if (tc == NULL) {
@@ -260,6 +265,7 @@ int lcut_tc_add(lcut_ts_t *ts,
     APR_RING_INSERT_TAIL(&(ts->tc_head), tc, lcut_tc_t, link);
     ts->ran++;
 
+    printf("< lcut_tc_add\n");
     return rv;
 }
 
@@ -267,6 +273,7 @@ void lcut_test_run(lcut_test_t *test, int *result) {
     lcut_ts_t	*ts	= NULL;
     lcut_tc_t	*tc	= NULL;
 
+    printf("> lcut_test_run\n");
     printf("%s \n", LCUT_LOGO);
     printf("Unit Test for '%s':\n\n", test->desc);
 
@@ -311,6 +318,7 @@ void lcut_test_run(lcut_test_t *test, int *result) {
     if (test->teardown != NULL) {
         test->teardown();
     }
+    printf("< lcut_test_run\n");
 
 }
 
@@ -319,6 +327,7 @@ void lcut_test_report(lcut_test_t *test) {
     int failed_cases  = 0;
     lcut_ts_t *ts  = NULL;
 
+    printf("> lcut_test_report\n");
     APR_RING_FOREACH(ts, &(test->ts_head), lcut_ts_t, link) {
         if (ts != NULL) {
             if (ts->failed > 0) {
@@ -338,6 +347,7 @@ void lcut_test_report(lcut_test_t *test) {
     } else {
         printf(REDBAR);
     }
+    printf("< lcut_test_report\n");
 }
 
 void* lcut_mock_obj(const char *fcname,
